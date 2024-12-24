@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Reader Game</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+            animation: bgAnimation 2s infinite alternate;
+            position: relative;
+        }
+
+        .hypnotic {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200vw;
+            height: 200vh;
+            background: radial-gradient(circle, transparent 20%, rgba(255, 255, 255, 0.1) 50%, transparent 80%);
+            border-radius: 100%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: hypnoticEffect 10s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes hypnoticEffect {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .container {
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            max-width: 400px;
+            padding: 30px;
+            animation: fadeIn 1.2s ease-in-out, colorShift 3s infinite alternate;
+            position: relative;
+            z-index: 2;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: linear-gradient(45deg, #4a39b5, #141d68);
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, background-color 0.4s ease-in-out;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #d7263d, #ff6f61);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes colorShift {
+            0% {
+                box-shadow: 0 0 20px #ff6f61;
+            }
+
+            100% {
+                box-shadow: 0 0 20px #d7263d;
+            }
+        }
+
+        @keyframes bgAnimation {
+            0% {
+                background: linear-gradient(120deg, #0f2027, #3b204b, #1d2257);
+            }
+
+            50% {
+                background: linear-gradient(120deg, #0f2027, #1a2a6c, #1a2a6c);
+            }
+
+            100% {
+                background: linear-gradient(120deg, #1a2a6c, #16233e, #301b36);
+            }
+        }
+
+        .step {
+            animation: slideIn 0.2s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hypnotic"></div>
+    <div class="container">
+        <h1>Mind Reader</h1>
+        <p id="intro">Welcome! Let's play a game. Are you ready?</p>
+        <div id="step1" class="hidden step">
+            <p>Think of a secret number, but don't tell anyone—this is between you and the Mind Reader.</p>
+            <button onclick="nextStep(2)">Continue</button>
+        </div>
+        <div id="step2" class="hidden step">
+            <p>Now, double your secret number. Watch as the magic begins to unfold.</p>
+            <button onclick="nextStep(3)">Continue</button>
+        </div>
+        <div id="step3" class="hidden step">
+            <p id="add-step"></p>
+            <button onclick="nextStep(4)">Continue</button>
+        </div>
+        <div id="step4" class="hidden step">
+            <p>Halve your current total, but keep your thoughts sharp—you're close to unveiling the magic.</p>
+            <button onclick="nextStep(5)">Continue</button>
+        </div>
+        <div id="step5" class="hidden step">
+            <p>Finally, subtract the number you started with. Are you ready to reveal the Mind Reader's powers?</p>
+            <button onclick="showResult()">Show Result</button>
+        </div>
+        <div id="result" class="hidden step">
+            <p>Behold! Your final answer is... <span id="final-answer"></span>. The Mind Reader never misses.</p>
+            <p>Thank you for playing!</p>
+            <button onclick="restartGame()">Restart Game</button>
+        </div>
+        <button id="start" onclick="startGame()"><b><i>Start Game</i< /b></button>
+    </div>
+    <script>
+        let rand;
+
+        function startGame() {
+            rand = Math.floor(Math.random() * (50 - 2 + 1)) + 2;
+            document.getElementById('start').classList.add('hidden');
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+            document.getElementById('add-step').textContent = `Add ${rand} to your result—this is where the mystery deepens.`;
+        }
+
+        function nextStep(step) {
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`step${i}`).classList.add('hidden');
+            }
+            document.getElementById(`step${step}`).classList.remove('hidden');
+        }
+
+        function showResult() {
+            const answer = rand / 2;
+            document.getElementById('step5').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('final-answer').textContent = answer.toFixed(1);
+        }
+
+        function restartGame() {
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('start').classList.remove('hidden');
+            document.getElementById('intro').classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
