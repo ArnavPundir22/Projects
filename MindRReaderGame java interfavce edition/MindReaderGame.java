@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class BeautifulMindReaderGame extends JFrame {
+public class MindReaderGame extends JFrame {
 
     private JPanel contentPanel;
     private JLabel stepLabel;
@@ -13,7 +13,7 @@ public class BeautifulMindReaderGame extends JFrame {
     private int randomNumber;
     private Random random;
 
-    public BeautifulMindReaderGame() {
+    public MindReaderGame() {
         // Initialize game state and random generator
         random = new Random();
         randomNumber = random.nextInt(49) + 2; // Generate a random number between 2 and 50
@@ -110,7 +110,7 @@ public class BeautifulMindReaderGame extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            BeautifulMindReaderGame game = new BeautifulMindReaderGame();
+            MindReaderGame game = new MindReaderGame();
             game.setVisible(true);
         });
     }
